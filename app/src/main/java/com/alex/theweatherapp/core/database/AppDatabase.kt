@@ -5,7 +5,11 @@ import androidx.room.RoomDatabase
 import com.alex.theweatherapp.features.home.data.local.dao.ForecastDao
 import com.alex.theweatherapp.features.home.data.local.entity.ForecastEntity
 
-@Database(entities = [ForecastEntity::class], version = 1)
+@Database(
+    entities = [ForecastEntity::class],
+    version = 1,
+    exportSchema = false
+)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun forecastDao(): ForecastDao
 }

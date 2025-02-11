@@ -1,4 +1,7 @@
 package com.alex.theweatherapp.features.home.presentation.event
 
-class HomeEvent {
+sealed class HomeEvent {
+    data object FetchContent : HomeEvent()
+    data object Retry : HomeEvent()
+    data object HandleNoLocation: HomeEvent()
 }
