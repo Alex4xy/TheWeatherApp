@@ -8,8 +8,10 @@ import androidx.navigation.compose.rememberNavController
 import com.alex.theweatherapp.core.navigation.AppNavGraph
 import com.alex.theweatherapp.core.utils.providers.ResourceProvider
 import com.alex.theweatherapp.ui.theme.TheWeatherAppTheme
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @Inject
     lateinit var resourceProvider: ResourceProvider
