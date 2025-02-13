@@ -1,8 +1,14 @@
 package com.alex.theweatherapp.core.location
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Looper
+import androidx.core.content.ContextCompat
+import com.alex.theweatherapp.core.location.LocationState.Available
+import com.alex.theweatherapp.core.location.LocationState.Initial
+import com.alex.theweatherapp.core.location.LocationState.Unavailable
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
@@ -16,6 +22,8 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -23,14 +31,13 @@ import javax.inject.Singleton
 class FusedLocationObserver @Inject constructor(
     @ApplicationContext private val context: Context
 ) : LocationObserver {
-    @Volatile
-    private var lastLocationTimestamp: Long = 0
 
     @Volatile
-    private var firstUpdateReceived = false
+    private var lastLocationTimestamp: Long = 0L
 
     private val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
-    private val locationTimeoutMillis = 30000L
+
+    private val locationTimeoutMillis = 15000L
     private val initialWaitMillis = 3000L
 
     @SuppressLint("MissingPermission")
@@ -38,7 +45,16 @@ class FusedLocationObserver @Inject constructor(
         interval: Long,
         fastestInterval: Long
     ): Flow<LocationState> {
-        val locationFlow = callbackFlow<LocationState> {
+        val locationFlow = callbackFlow {
+            while (ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                trySend(element = Unavailable)
+                delay(500)
+            }
+
             val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, interval)
                 .setMinUpdateIntervalMillis(fastestInterval)
                 .build()
@@ -46,38 +62,57 @@ class FusedLocationObserver @Inject constructor(
             val callback = object : LocationCallback() {
                 override fun onLocationResult(locationResult: LocationResult) {
                     locationResult.locations.forEach { location ->
-                        firstUpdateReceived = true
                         lastLocationTimestamp = System.currentTimeMillis()
-                        trySend(LocationState.Available(location))
+                        trySend(element = Available(location = location))
                     }
                 }
             }
 
-            fusedLocationClient.requestLocationUpdates(
-                locationRequest,
-                callback,
-                Looper.getMainLooper()
-            )
+            fusedLocationClient.requestLocationUpdates(locationRequest, callback, Looper.getMainLooper())
 
-            awaitClose {
-                fusedLocationClient.removeLocationUpdates(callback)
-            }
+            awaitClose { fusedLocationClient.removeLocationUpdates(callback) }
         }
 
-        val checkerFlow = flow<LocationState> {
+        val checkerFlow = flow {
             delay(initialWaitMillis)
-            if (!firstUpdateReceived) {
-                emit(LocationState.Unavailable)
+            while (ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                emit(value = Unavailable)
+                delay(500)
+            }
+            if (lastLocationTimestamp == 0L) {
+                val lastKnown = suspendCancellableCoroutine { cont ->
+                    fusedLocationClient.lastLocation
+                        .addOnSuccessListener { location ->
+                            cont.resumeWith(Result.success(value = location))
+                        }
+                        .addOnFailureListener {
+                            cont.resumeWith(Result.success(value = null))
+                        }
+                }
+                if (lastKnown != null) {
+                    lastLocationTimestamp = System.currentTimeMillis()
+                    emit(Available(location = lastKnown))
+                } else {
+                    emit(value = Unavailable)
+                }
             }
             while (true) {
                 delay(1000)
-                if (firstUpdateReceived && (System.currentTimeMillis() - lastLocationTimestamp >= locationTimeoutMillis)) {
-                    emit(LocationState.Unavailable)
+                if (lastLocationTimestamp != 0L && (System.currentTimeMillis() - lastLocationTimestamp >= locationTimeoutMillis)
+                ) {
+                    emit(value = Unavailable)
                 }
             }
         }
 
         return merge(locationFlow, checkerFlow)
+            .onStart { emit(value = Initial) }
             .distinctUntilChanged()
     }
 }
+
+

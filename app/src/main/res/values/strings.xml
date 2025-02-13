@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">TheWeatherApp</string>
+    <string name="generic_unknown_error">Unknown error occurred</string>
+    <string name="locations_status_available">Available</string>
+    <string name="location_status_unavailable">Unavailable</string>
+    <string name="locations_status_checking">Checking...</string>
+    <string name="title_home">Weekly Weather</string>
+    <string name="status_network">Network: %1$s</string>
+    <string name="status_location">Location: %1$s</string>
+    <string name="status_city">City: %1$s</string>
+    <string name="content_description_refresh">Refresh</string>
+    <string name="status_loading">Loading content...</string>
+    <string name="forecast_date">Day: %1$s</string>
+    <string name="forecast_min_temp_c">Min: %1$s°C</string>
+    <string name="forecast_max_temp_c">Max: %1$s°C</string>
+    <string name="forecast_weather">Weather: %1$s</string>
+    <string name="home_state_error">Error: %1$s</string>
+    <string name="home_state_no_location">No location available and no local data found.</string>
+    <string name="unknown_city">Unknown City</string>
+    <string name="error_no_forecast_data">No forecast data available</string>
+    <string name="error_network">Network error: %1$s</string>
+    <string name="error_io">IO error: %1$s</string>
+    <string name="error_unexpected">Unexpected error: %1$s</string>
+    <string name="error_network_and_no_cache">Network not available and no cached data found</string>
 </resources>
