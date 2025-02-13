@@ -16,7 +16,7 @@ import javax.inject.Inject
 import kotlin.coroutines.cancellation.CancellationException
 import kotlin.coroutines.resume
 
-class GetCityNameUseCase @Inject constructor(
+open class GetCityNameUseCase @Inject constructor(
     private val context: Context,
     private val resourceProvider: ResourceProvider,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
