@@ -3,13 +3,13 @@
     <string name="generic_unknown_error">Unknown error occurred</string>
     <string name="locations_status_available">Available</string>
     <string name="location_status_unavailable">Unavailable</string>
-    <string name="locations_status_checking">Checking...</string>
+    <string name="locations_status_checking">Checking…</string>
     <string name="title_home">Weekly Weather</string>
-    <string name="status_network">Network: %1$s</string>
-    <string name="status_location">Location: %1$s</string>
+    <string name="status_network">Network status: %1$s</string>
+    <string name="status_location">Location status: %1$s</string>
     <string name="status_city">City: %1$s</string>
     <string name="content_description_refresh">Refresh</string>
-    <string name="status_loading">Loading content...</string>
+    <string name="status_loading">Loading content…</string>
     <string name="forecast_date">Day: %1$s</string>
     <string name="forecast_min_temp_c">Min: %1$s°C</string>
     <string name="forecast_max_temp_c">Max: %1$s°C</string>
