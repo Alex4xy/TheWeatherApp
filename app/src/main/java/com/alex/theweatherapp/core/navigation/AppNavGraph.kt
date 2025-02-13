@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.alex.theweatherapp.features.home.presentation.screen.HomeScreen
+import com.alex.theweatherapp.features.home.presentation.ui.screen.HomeScreen
 
 @Composable
 fun AppNavGraph(
@@ -13,7 +13,7 @@ fun AppNavGraph(
 ) {
     NavHost(navController = navController, startDestination = "home") {
         composable("home") {
-            HomeScreen(navController)
+            HomeScreen()
         }
     }
 }

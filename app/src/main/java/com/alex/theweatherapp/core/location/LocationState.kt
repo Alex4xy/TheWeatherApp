@@ -5,4 +5,5 @@ import android.location.Location
 sealed class LocationState {
     data class Available(val location: Location) : LocationState()
     data object Unavailable : LocationState()
+    data object Initial : LocationState()
 }

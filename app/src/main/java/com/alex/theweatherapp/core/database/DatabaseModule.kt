@@ -2,7 +2,7 @@ package com.alex.theweatherapp.core.database
 
 import android.content.Context
 import androidx.room.Room
-import com.alex.theweatherapp.features.home.data.local.dao.ForecastDao
+import com.alex.theweatherapp.features.home.data.local.room.dao.ForecastDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
