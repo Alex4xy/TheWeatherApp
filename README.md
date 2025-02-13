@@ -26,12 +26,16 @@ The Weather App is a modern Android application built to provide weekly ( 7 days
 
 ### Clone or Download the Repository
 
-1. **Download the ZIP file**
+1. **Clone the repository**  
+   Open a terminal and run:
+   ```bash
+   git clone https://github.com/yourusername/yourrepository.git
+   cd yourrepository
+
+2. **Download the ZIP file**
    - Click the green `Code` button on the repository page.
    - Select `Download ZIP`.
    - Extract the downloaded ZIP file to your preferred location.
-
-2. **Open in Android Studio**
    - Open Android Studio.
    - Click on `File > Open`.
    - Navigate to the project folder and select it.
