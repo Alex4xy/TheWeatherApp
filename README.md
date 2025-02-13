@@ -41,7 +41,7 @@ The Weather App is a modern Android application built to provide weekly ( 7 days
 3. **Install Directly on a Device**
    - Use the provided debug bundle (APK).
    - Download the `.apk` file.
-   - Transfer the APK to your Android device or scan the QR code if provided.
+   - Transfer the APK to your Android device.
    - On your device, enable **Install unknown apps** for the file manager app (if not already enabled).
    - Open the APK and install the app.
 
