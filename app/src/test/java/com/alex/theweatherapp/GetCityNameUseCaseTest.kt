@@ -11,6 +11,9 @@ import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
+import org.mockito.ArgumentMatchers.eq
+import org.mockito.kotlin.argumentCaptor
+import org.mockito.kotlin.doAnswer
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.doThrow
 import org.mockito.kotlin.mock
@@ -37,19 +40,29 @@ class GetCityNameUseCaseTest {
 
     @Test
     fun `returns unknown city on IOException`() = runTest(testScheduler) {
+        // Arrange
         val location: Location = mock {
             on { latitude } doReturn 10.0
             on { longitude } doReturn 20.0
         }
-        val geocoder: Geocoder = mock {
-            on { getFromLocation(10.0, 20.0, 1) } doThrow IOException()
-        }
+
+        val geocoder: Geocoder = mock()
         whenever(context.getSystemService(Geocoder::class.java)).thenReturn(geocoder)
         whenever(resourceProvider.getString(R.string.unknown_city)).thenReturn("Unknown City")
 
+        val listenerCaptor = argumentCaptor<Geocoder.GeocodeListener>()
+
+        doAnswer {
+            listenerCaptor.firstValue.onError(IOException("Geocoding failed").toString())
+            null
+        }.whenever(geocoder).getFromLocation(eq(10.0), eq(20.0), eq(1), listenerCaptor.capture())
+
+        // Act
         val result = getCityNameUseCase(location)
 
+        // Assert
         assertThat(result).isEqualTo("Unknown City")
     }
+
 }
 
