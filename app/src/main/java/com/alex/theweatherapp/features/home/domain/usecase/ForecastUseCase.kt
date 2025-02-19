@@ -35,7 +35,7 @@ class ForecastUseCase @Inject constructor(
             lat = newLocation.latitude,
             lon = newLocation.longitude,
             cnt = 7,
-            appid = "b401b75d25a77c1eb0824e54ea66187c",
+            appid = "", //ADD Open weather key here
             mode = "json",
             units = "metric",
             lang = "en"
