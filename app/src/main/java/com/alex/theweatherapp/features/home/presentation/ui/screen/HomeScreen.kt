@@ -17,6 +17,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -48,6 +49,7 @@ import com.alex.theweatherapp.ui.theme.DarkBackground
 import com.alex.theweatherapp.ui.theme.DeepBlue
 import com.alex.theweatherapp.ui.theme.StormGray
 import com.alex.theweatherapp.ui.theme.White
+import com.alex.theweatherapp.ui.theme.fontFamily
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -108,7 +110,10 @@ fun HomeScreen() {
                 title = {
                     Text(
                         text = resourceProvider.getString(R.string.title_home),
-                        color = White
+                        color = White,
+                        style = MaterialTheme.typography.titleLarge.copy(
+                            fontFamily = fontFamily
+                        )
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(

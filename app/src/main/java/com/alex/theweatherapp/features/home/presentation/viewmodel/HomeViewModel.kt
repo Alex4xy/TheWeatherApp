@@ -105,8 +105,9 @@ class HomeViewModel @Inject constructor(
             is HandleNoLocation -> handleNoLocation()
             is FetchContent,
             is Retry -> {
-                lastKnownLocation?.let { fetchDataForLocation(newLocation = it) }
-                    ?: handleNoLocation()
+                lastKnownLocation?.let {
+                    fetchDataForLocation(newLocation = it)
+                } ?: handleNoLocation()
             }
 
             is ForceRefresh -> {

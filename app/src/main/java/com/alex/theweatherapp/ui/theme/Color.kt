@@ -2,9 +2,9 @@ package com.alex.theweatherapp.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val DarkBackground = Color(0xFF121212)
+val DarkBackground = Color(0x99121212)
 val NightBlue = Color(0xFF0A192F)
-val DeepBlue = Color(0xFF0D47A1)
+val DeepBlue = Color(0xFF0D6EFD)
 val StormGray = Color(0xFF37474F)
 val CloudGray = Color(0xFF90A4AE)
 
