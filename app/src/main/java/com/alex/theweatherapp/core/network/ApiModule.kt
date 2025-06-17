@@ -16,7 +16,10 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module
 class ApiModule {
-    private val BASE_URL = "https://api.openweathermap.org/"
+
+    companion object {
+    const val    BASE_URL = "https://api.openweathermap.org/"
+    }
 
     @Provides
     @Singleton
