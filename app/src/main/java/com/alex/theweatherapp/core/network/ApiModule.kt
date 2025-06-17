@@ -18,7 +18,7 @@ import javax.inject.Singleton
 class ApiModule {
 
     companion object {
-    const val    BASE_URL = "https://api.openweathermap.org/"
+    const val BASE_URL = "https://api.openweathermap.org/"
     }
 
     @Provides
